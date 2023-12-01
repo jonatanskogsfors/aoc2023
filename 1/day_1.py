@@ -56,5 +56,6 @@ def solve_part_two(input_path: Path) -> int:
 
 
 if __name__ == "__main__":
-    print(solve_part_one(Path("1/input.txt")))
-    print(solve_part_two(Path("1/input.txt")))  # 53363 -> 53343 -> _53340_
+    input_path = Path("input/input_1.txt")
+    print(solve_part_one(input_path))
+    print(solve_part_two(input_path))  # 53363 -> 53343 -> _53340_
