@@ -1,0 +1,25 @@
+[project]
+name = "aoc2023"
+version = "2023.2.0"
+description = ""
+authors = [
+    {name = "Jonatan Skogsfors", email = "jonatan@skogsfors.net"},
+]
+dependencies = [
+    "requests>=2.31.0",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+aoc-input = "aoc2023.scripts.download_input:main"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "ruff>=0.1.6",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I001"]

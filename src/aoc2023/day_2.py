@@ -1,7 +1,7 @@
+import re
 from collections import defaultdict
 from functools import reduce
 from pathlib import Path
-import re
 
 GAME_HEADER_PATTERN = re.compile(r"Game (\d+)")
 

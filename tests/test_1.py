@@ -1,13 +1,12 @@
 from pathlib import Path
 
 import pytest
-
-import day_1
+from aoc2023 import day_1
 
 
 def test_parse_input_returns_list_of_strings():
     print(Path().absolute())
-    given_path = Path("1/test_input_1.txt")
+    given_path = Path("test_input/test_input_1_1.txt")
 
     parsed_input = day_1.parse_input(given_path)
 
@@ -76,12 +75,12 @@ def test_decode_row_handles_multiple_instances_of_same_number(
 
 
 def test_solving_part_1_gives_expected_value():
-    given_input_path = Path("1/test_input_1.txt")
+    given_input_path = Path("test_input/test_input_1_1.txt")
     answer = day_1.solve_part_one(given_input_path)
     assert answer == 142
 
 
 def test_solving_part_2_gives_expected_value():
-    given_input_path = Path("1/test_input_2.txt")
+    given_input_path = Path("test_input/test_input_1_2.txt")
     answer = day_1.solve_part_two(given_input_path)
     assert answer == 281
