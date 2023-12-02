@@ -13,11 +13,12 @@ if __name__ == "__main__":
     input_path = INPUT_DIR / f"input_{day}.txt"
 
     if input_path.exists():
+        print(f"Input data for day {day} already downloaded.")
         sys.exit()
-    
+
     cookie = COOKIE_PATH.read_text().strip()
     cookies = {f"session": cookie}
-    url = ENDPOINT_PATTERN.format(day)  
+    url = ENDPOINT_PATTERN.format(day)
     response = requests.get(url, cookies=cookies)
     if response.status_code == 200:
         INPUT_DIR.mkdir(exist_ok=True)
