@@ -61,10 +61,12 @@ def test_fewest_cubes_for_game_returns_expected_vlue(given_game, expected_fewest
 def test_solving_part_1_gives_expected_value():
     given_input_path = Path("test_input/test_input_2_1.txt")
     answer = day_2.solve_part_one(given_input_path)
-    assert answer == 8
+    expected_answer = 8
+    assert answer == expected_answer
 
 
 def test_solving_part_2_gives_expected_value():
     given_input_path = Path("test_input/test_input_2_1.txt")
     answer = day_2.solve_part_two(given_input_path)
-    assert answer == 2286
+    expected_answer = 2286
+    assert answer == expected_answer

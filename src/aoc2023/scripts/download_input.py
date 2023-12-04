@@ -1,4 +1,5 @@
 import sys
+from http import HTTPStatus
 from pathlib import Path
 
 import requests
@@ -19,7 +20,7 @@ def main():
     cookies = {"session": cookie}
     url = ENDPOINT_PATTERN.format(day)
     response = requests.get(url, cookies=cookies)
-    if response.status_code == 200:
+    if response.status_code == HTTPStatus.OK:
         INPUT_DIR.mkdir(exist_ok=True)
         print(f"Writing '{input_path}'")
         input_path.write_text(response.text)

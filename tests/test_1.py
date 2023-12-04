@@ -77,10 +77,12 @@ def test_decode_row_handles_multiple_instances_of_same_number(
 def test_solving_part_1_gives_expected_value():
     given_input_path = Path("test_input/test_input_1_1.txt")
     answer = day_1.solve_part_one(given_input_path)
-    assert answer == 142
+    expected_answer = 142
+    assert answer == expected_answer
 
 
 def test_solving_part_2_gives_expected_value():
     given_input_path = Path("test_input/test_input_1_2.txt")
     answer = day_1.solve_part_two(given_input_path)
-    assert answer == 281
+    expected_answer = 281
+    assert answer == expected_answer

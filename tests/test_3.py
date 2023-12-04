@@ -11,8 +11,12 @@ def test_parse_input_returns_tuple_of_strings():
 
     assert parsed_schematic
     assert isinstance(parsed_schematic, tuple)
-    assert len(parsed_schematic) == 10
-    assert all(len(row) == 10 for row in parsed_schematic)
+
+    expected_rows_in_schematic = 10
+    assert len(parsed_schematic) == expected_rows_in_schematic
+
+    expected_columns_in_schematic = 10
+    assert all(len(row) == expected_columns_in_schematic for row in parsed_schematic)
 
 
 @pytest.mark.parametrize(
@@ -21,13 +25,14 @@ def test_parse_input_returns_tuple_of_strings():
         (ItemPosition(1, 0, 0), {(0, 1), (1, 0), (1, 1)}),  # Corner case
         (ItemPosition(12, 0, 0), {(2, 0), (0, 1), (1, 1), (2, 1)}),
         (
-                ItemPosition(3, 1, 1),
-                {(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)}
+            ItemPosition(3, 1, 1),
+            {(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)},
         ),
-    )
+    ),
 )
 def test_adjacent_indices_returns_indices_around_number(given_number, expected_indices):
     assert day_3.adjacent_indices(given_number) == expected_indices
+
 
 @pytest.mark.parametrize(
     "given_number, expected_symbol",
@@ -37,10 +42,10 @@ def test_adjacent_indices_returns_indices_around_number(given_number, expected_i
         (ItemPosition(617, 0, 4), ItemPosition("*", 3, 4)),
         (ItemPosition(592, 2, 6), ItemPosition("+", 5, 5)),
         (ItemPosition(58, 7, 5), None),
-    )
+    ),
 )
 def test_adjacent_symbol_finds_expected_symbol(
-        given_number: ItemPosition, expected_symbol
+    given_number: ItemPosition, expected_symbol
 ):
     given_path = Path("test_input/test_input_3_1.txt")
     given_schematic = day_3.parse_input(given_path)
@@ -87,10 +92,12 @@ def test_cogs_in_schematic_finds_all_cogs():
 def test_solving_part_one_gives_expected_value():
     given_input_path = Path("test_input/test_input_3_1.txt")
     answer = day_3.solve_part_one(given_input_path)
-    assert answer == 4361
+    expected_answer = 4361
+    assert answer == expected_answer
 
 
 def test_solving_part_two_gives_expected_value():
     given_input_path = Path("test_input/test_input_3_1.txt")
     answer = day_3.solve_part_two(given_input_path)
-    assert answer == 467835
+    expected_answer = 467835
+    assert answer == expected_answer

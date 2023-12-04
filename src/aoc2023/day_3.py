@@ -30,7 +30,7 @@ def adjacent_indices(given_number: ItemPosition):
 
     same_row = {
         (given_number.x - 1, given_number.y),
-        (given_number.x + number_width, given_number.y)
+        (given_number.x + number_width, given_number.y),
     }
 
     row_below = {
@@ -81,9 +81,7 @@ def cogs_in_schematics(schematic):
 def solve_part_one(input_path: Path):
     schematic = parse_input(input_path)
     numbers = numbers_in_schematic(schematic)
-    parts = [
-        number.value for number in numbers if adjacent_symbol(number, schematic)
-    ]
+    parts = [number.value for number in numbers if adjacent_symbol(number, schematic)]
     return sum(parts)
 
 
@@ -92,13 +90,7 @@ def solve_part_two(input_path: Path):
     cogs = cogs_in_schematics(schematic)
     return sum(cog.value for cog in cogs)
 
-
-
-
     return 0
-
-
-
 
 
 if __name__ == "__main__":
