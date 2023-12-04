@@ -4,10 +4,12 @@ import pytest
 from aoc2023 import day_3
 from aoc2023.day_3 import ItemPosition
 
+TEST_INPUT_DIR = Path(__file__).parent / "test_input"
+TEST_INPUT_1 = TEST_INPUT_DIR / "test_input_3_1.txt"
+
 
 def test_parse_input_returns_tuple_of_strings():
-    given_path = Path("test_input/test_input_3_1.txt")
-    parsed_schematic = day_3.parse_input(given_path)
+    parsed_schematic = day_3.parse_input(TEST_INPUT_1)
 
     assert parsed_schematic
     assert isinstance(parsed_schematic, tuple)
@@ -37,7 +39,7 @@ def test_adjacent_indices_returns_indices_around_number(given_number, expected_i
 @pytest.mark.parametrize(
     "given_number, expected_symbol",
     (
-        (ItemPosition(467, 0, 0), ItemPosition("*", 3, 2)),
+        (ItemPosition(467, 0, 0), ItemPosition("*", 3, 1)),
         (ItemPosition(114, 5, 0), None),
         (ItemPosition(617, 0, 4), ItemPosition("*", 3, 4)),
         (ItemPosition(592, 2, 6), ItemPosition("+", 5, 5)),
@@ -47,15 +49,13 @@ def test_adjacent_indices_returns_indices_around_number(given_number, expected_i
 def test_adjacent_symbol_finds_expected_symbol(
     given_number: ItemPosition, expected_symbol
 ):
-    given_path = Path("test_input/test_input_3_1.txt")
-    given_schematic = day_3.parse_input(given_path)
+    given_schematic = day_3.parse_input(TEST_INPUT_1)
 
     assert day_3.adjacent_symbol(given_number, given_schematic) == expected_symbol
 
 
 def test_find_numbers_in_schematic():
-    given_path = Path("test_input/test_input_3_1.txt")
-    given_schematic = day_3.parse_input(given_path)
+    given_schematic = day_3.parse_input(TEST_INPUT_1)
 
     numbers = day_3.numbers_in_schematic(given_schematic)
 
@@ -76,8 +76,7 @@ def test_find_numbers_in_schematic():
 
 
 def test_cogs_in_schematic_finds_all_cogs():
-    given_path = Path("test_input/test_input_3_1.txt")
-    given_schematic = day_3.parse_input(given_path)
+    given_schematic = day_3.parse_input(TEST_INPUT_1)
 
     cogs = day_3.cogs_in_schematics(given_schematic)
 
@@ -90,14 +89,12 @@ def test_cogs_in_schematic_finds_all_cogs():
 
 
 def test_solving_part_one_gives_expected_value():
-    given_input_path = Path("test_input/test_input_3_1.txt")
-    answer = day_3.solve_part_one(given_input_path)
+    answer = day_3.solve_part_one(TEST_INPUT_1)
     expected_answer = 4361
     assert answer == expected_answer
 
 
 def test_solving_part_two_gives_expected_value():
-    given_input_path = Path("test_input/test_input_3_1.txt")
-    answer = day_3.solve_part_two(given_input_path)
+    answer = day_3.solve_part_two(TEST_INPUT_1)
     expected_answer = 467835
     assert answer == expected_answer

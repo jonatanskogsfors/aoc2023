@@ -3,10 +3,12 @@ from pathlib import Path
 import pytest
 from aoc2023 import day_2
 
+TEST_INPUT_DIR = Path(__file__).parent / "test_input"
+TEST_INPUT_1 = TEST_INPUT_DIR / "test_input_2_1.txt"
+
 
 def test_parse_input_returns_a_dictionary_of_strings():
-    given_path = Path("test_input/test_input_2_1.txt")
-    parsed_input = day_2.parse_input(given_path)
+    parsed_input = day_2.parse_input(TEST_INPUT_1)
 
     assert parsed_input
     assert isinstance(parsed_input, dict)
@@ -59,14 +61,12 @@ def test_fewest_cubes_for_game_returns_expected_vlue(given_game, expected_fewest
 
 
 def test_solving_part_1_gives_expected_value():
-    given_input_path = Path("test_input/test_input_2_1.txt")
-    answer = day_2.solve_part_one(given_input_path)
+    answer = day_2.solve_part_one(TEST_INPUT_1)
     expected_answer = 8
     assert answer == expected_answer
 
 
 def test_solving_part_2_gives_expected_value():
-    given_input_path = Path("test_input/test_input_2_1.txt")
-    answer = day_2.solve_part_two(given_input_path)
+    answer = day_2.solve_part_two(TEST_INPUT_1)
     expected_answer = 2286
     assert answer == expected_answer

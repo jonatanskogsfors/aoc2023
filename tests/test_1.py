@@ -3,12 +3,13 @@ from pathlib import Path
 import pytest
 from aoc2023 import day_1
 
+TEST_INPUT_DIR = Path(__file__).parent / "test_input"
+TEST_INPUT_1 = TEST_INPUT_DIR / "test_input_1_1.txt"
+TEST_INPUT_2 = TEST_INPUT_DIR / "test_input_1_2.txt"
+
 
 def test_parse_input_returns_list_of_strings():
-    print(Path().absolute())
-    given_path = Path("test_input/test_input_1_1.txt")
-
-    parsed_input = day_1.parse_input(given_path)
+    parsed_input = day_1.parse_input(TEST_INPUT_1)
 
     assert isinstance(parsed_input, list)
     assert len(parsed_input)
@@ -75,14 +76,12 @@ def test_decode_row_handles_multiple_instances_of_same_number(
 
 
 def test_solving_part_1_gives_expected_value():
-    given_input_path = Path("test_input/test_input_1_1.txt")
-    answer = day_1.solve_part_one(given_input_path)
+    answer = day_1.solve_part_one(TEST_INPUT_1)
     expected_answer = 142
     assert answer == expected_answer
 
 
 def test_solving_part_2_gives_expected_value():
-    given_input_path = Path("test_input/test_input_1_2.txt")
-    answer = day_1.solve_part_two(given_input_path)
+    answer = day_1.solve_part_two(TEST_INPUT_2)
     expected_answer = 281
     assert answer == expected_answer
