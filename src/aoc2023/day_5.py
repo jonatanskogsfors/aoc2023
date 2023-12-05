@@ -30,7 +30,7 @@ class CategoryRange:
 
 def split_ranges(
     left_range: CategoryRange, right_range: CategoryRange
-) -> list[CategoryRange]:
+) -> tuple[list[CategoryRange], list[CategoryRange]]:
     left_start_inside_right = (
         right_range.source <= left_range.destination <= right_range.source_end
     )
@@ -40,7 +40,7 @@ def split_ranges(
     ranges_overlap = left_start_inside_right or left_end_inside_right
 
     if not ranges_overlap:
-        return None
+        return [], []
 
     a_length = abs(right_range.source - left_range.destination)
     b_length = (
@@ -50,7 +50,7 @@ def split_ranges(
     )
     c_length = abs(right_range.source_end - left_range.destination_end)
 
-    if left_range.destination < right_range.source:
+    if left_range.destination <= right_range.source:
         # Left, no overlap
         a_source = left_range.source
         a_destination = left_range.destination
@@ -59,12 +59,12 @@ def split_ranges(
         b_source = left_range.source + a_length
         b_destination = right_range.destination
 
-    elif left_range.destination >= right_range.source:
+    elif left_range.destination > right_range.source:
         a_source = right_range.source
         a_destination = right_range.destination
 
         # Middle, overlap
-        b_source = right_range.source + a_length
+        b_source = left_range.source
         b_destination = right_range.destination + a_length
     else:
         raise Exception("OOPS")
@@ -79,14 +79,24 @@ def split_ranges(
     else:
         raise Exception("OOPS")
 
-    new_ranges = [CategoryRange(b_destination, b_source, b_length)]
+    unchecked_ranges = []
+    checked_ranges = [CategoryRange(b_destination, b_source, b_length)]
+
     if a_length:
-        new_ranges.append(CategoryRange(a_destination, a_source, a_length))
+        a_range = CategoryRange(a_destination, a_source, a_length)
+        if a_range.source == left_range.source or a_range.source_end == left_range.source_end:
+           checked_ranges.append(a_range)
+        else:
+            unchecked_ranges.append(a_range)
 
     if c_length:
-        new_ranges.append(CategoryRange(c_destination, c_source, c_length))
+        c_range = CategoryRange(c_destination, c_source, c_length)
+        if c_range.source == left_range.source or c_range.source_end == left_range.source_end:
+            checked_ranges.append(c_range)
+        else:
+            unchecked_ranges.append(c_range)
 
-    return new_ranges
+    return checked_ranges, unchecked_ranges
 
 
 @dataclass
@@ -122,15 +132,17 @@ class CategoryMap:
             unchecked_range = unchecked_ranges.pop()
             range_split = False
             for map_range in self._map_ranges:
-                if new_ranges := split_ranges(map_range, unchecked_range):
-                    unchecked_ranges += new_ranges
+                checked, unchecked = split_ranges(map_range, unchecked_range)
+                if any((checked, unchecked)):
+                    unchecked_ranges += unchecked
+                    self._map_ranges += checked
                     range_split = True
                     self._map_ranges.remove(map_range)
                     break
             if not range_split:
                 combined_ranges.append(unchecked_range)
 
-        self._map_ranges = combined_ranges
+        self._map_ranges += combined_ranges
 
 
 def parse_input(input_path: Path):

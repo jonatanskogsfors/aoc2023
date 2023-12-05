@@ -95,12 +95,33 @@ def test_combined_maps_gives_correct_value(given_source, expected_destination):
         (
             CategoryRange(10, 100, 20),
             CategoryRange(78, 8, 5),
-            {CategoryRange(13, 103, 17), CategoryRange(80, 10, 3), CategoryRange(78, 8, 2)},
+            {CategoryRange(13, 103, 17), CategoryRange(80, 100, 3), CategoryRange(78, 8, 2)},
+        ),
+        (
+            CategoryRange(20, 10, 20),
+            CategoryRange(70, 100, 5),
+            set(),
+        ),
+        (
+            CategoryRange(50, 20, 5),
+            CategoryRange(20, 50, 5),
+            {CategoryRange(20, 20, 5)},
+        ),
+        (
+            CategoryRange(50, 20, 10),
+            CategoryRange(20, 50, 5),
+            {CategoryRange(20, 20, 5), CategoryRange(55, 25, 5)},
+        ),
+        (
+            CategoryRange(50, 20, 5),
+            CategoryRange(14, 44, 11),
+            {CategoryRange(20, 20, 5), CategoryRange(14, 44, 6)},
         ),
     ),
 )
 def test_split_overlapping_ranges(given_left_range, given_right_range, expected_ranges):
-    disjunct_ranges = day_5.split_ranges(given_left_range, given_right_range)
+    checked, unchecked = day_5.split_ranges(given_left_range, given_right_range)
+    disjunct_ranges = checked + unchecked
     assert set(disjunct_ranges) == expected_ranges
 
 
