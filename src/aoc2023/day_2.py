@@ -43,9 +43,7 @@ def solve_part_one(input_path: Path) -> int:
     parsed_games = parse_input(input_path)
     rule = {"red": 12, "green": 13, "blue": 14}
     possible_games = [
-        game_id
-        for game_id, game in parsed_games.items()
-        if is_game_possible(game, rule)
+        game_id for game_id, game in parsed_games.items() if is_game_possible(game, rule)
     ]
     return sum(possible_games)
 

@@ -69,9 +69,7 @@ def test_decode_calibration_handles_overlapping_numbers(given_code, expected_val
         ("onetwo3two", 12),
     ),
 )
-def test_decode_row_handles_multiple_instances_of_same_number(
-    given_code, expected_value
-):
+def test_decode_row_handles_multiple_instances_of_same_number(given_code, expected_value):
     assert day_1.decode_calibration(given_code, allow_words=True) == expected_value
 
 
