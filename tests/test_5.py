@@ -90,12 +90,20 @@ def test_combined_maps_gives_correct_value(given_source, expected_destination):
         (
             CategoryRange(51, 1, 10),
             CategoryRange(100, 60, 9),
-            {CategoryRange(51, 1, 9), CategoryRange(100, 10, 1), CategoryRange(101, 61, 8)},
+            {
+                CategoryRange(51, 1, 9),
+                CategoryRange(100, 10, 1),
+                CategoryRange(101, 61, 8),
+            },
         ),
         (
             CategoryRange(10, 100, 20),
             CategoryRange(78, 8, 5),
-            {CategoryRange(13, 103, 17), CategoryRange(80, 10, 3), CategoryRange(78, 8, 2)},
+            {
+                CategoryRange(13, 103, 17),
+                CategoryRange(80, 10, 3),
+                CategoryRange(78, 8, 2),
+            },
         ),
     ),
 )
