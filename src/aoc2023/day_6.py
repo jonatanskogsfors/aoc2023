@@ -1,3 +1,4 @@
+import math
 import re
 from functools import reduce
 from pathlib import Path
@@ -21,6 +22,20 @@ def find_record_breakers(race_duration, record):
     ]
 
 
+def calculate_number_of_strategies(race_duration, record):
+    # Quadratic solver
+    a = -1
+    b = race_duration
+    c = -(record + 0.001)
+    d = (b**2) - (4 * a * c)
+    try:
+        low = math.ceil((-b + math.sqrt(d)) / (2 * a))
+        high = math.floor((-b - math.sqrt(d)) / (2 * a))
+    except ValueError:
+        return 0
+    return high - low + 1
+
+
 def parse_input(input_path: Path, kern=False):
     rows = input_path.read_text().splitlines()
     number_pattern = re.compile(r"(\d+)")
@@ -35,13 +50,16 @@ def solve_part_one(input_path: Path):
     races = parse_input(input_path)
     return reduce(
         lambda a, b: a * b,
-        [len(find_record_breakers(race_time, record)) for race_time, record in races],
+        [
+            calculate_number_of_strategies(race_time, record)
+            for race_time, record in races
+        ],
     )
 
 
 def solve_part_two(input_path: Path):
     race_time, record = parse_input(input_path, kern=True)
-    return len(find_record_breakers(race_time, record))
+    return calculate_number_of_strategies(race_time, record)
 
 
 if __name__ == "__main__":

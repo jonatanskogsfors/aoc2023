@@ -41,6 +41,38 @@ def test_find_record_breakers_returns_the_expected_strategies(
     assert len(strategies) == expected_strategies
 
 
+def test_calculate_number_of_strategies_handles_when_there_are_no_solutions():
+    given_race_duration = 10
+    given_record = 1337
+    number_of_strategies = day_6.calculate_number_of_strategies(
+        given_race_duration, given_record
+    )
+
+    assert number_of_strategies == 0
+
+
+@pytest.mark.parametrize(
+    "given_race_duration, given_record",
+    (
+        (7, 9),
+        (7, 10),
+        (7, 100),
+        (15, 40),
+        (20, 200),
+        (30, 400),
+    ),
+)
+def test_calculate_number_of_strategies_agrees_with_find_record_breakers(
+    given_race_duration, given_record
+):
+    found_strategies = day_6.find_record_breakers(given_race_duration, given_record)
+    number_of_strategies = day_6.calculate_number_of_strategies(
+        given_race_duration, given_record
+    )
+
+    assert len(found_strategies) == number_of_strategies
+
+
 def test_parse_input_returns_tuples_of_time_and_distance():
     races = day_6.parse_input(TEST_INPUT_1)
     assert races == ((7, 9), (15, 40), (30, 200))
