@@ -6,6 +6,7 @@ from pathlib import Path
 def main():
     input_path = Path("input/input_7.txt")
     print(solve_part_one(input_path))
+    print(solve_part_two(input_path))
 
 
 class CamelPoker(IntEnum):
@@ -23,8 +24,14 @@ def parse_input(input_path: Path):
     return tuple([(card, int(bid)) for card, bid in [hand.split() for hand in hands]])
 
 
-def identify_hand(hand: str) -> CamelPoker:
-    match Counter(hand).most_common():
+def identify_hand(hand: str, jokers: bool = False) -> CamelPoker:
+    cards_by_type = Counter(hand)
+    if jokers and "J" in cards_by_type and len(cards_by_type) > 1:
+        number_of_jokers = cards_by_type.pop("J")
+        most_common_card = cards_by_type.most_common(1)[0][0]
+        cards_by_type.update({most_common_card: number_of_jokers})
+
+    match cards_by_type.most_common():
         case [(_, 5)]:
             hand_type = CamelPoker.FIVE_OF_A_KIND
         case [(_, 4), _]:
@@ -42,15 +49,21 @@ def identify_hand(hand: str) -> CamelPoker:
     return hand_type
 
 
-def numeric_hand(hand: str) -> tuple[int]:
-    cards = "23456789TJQKA"
-    return tuple([cards.index(card) + 2 for card in hand])
+def numeric_hand(hand: str, jokers: bool = False) -> tuple[int]:
+    card_order = "J23456789TQKA" if jokers else "23456789TJQKA"
+    offset = 1 if jokers else 2
+    return tuple([card_order.index(card) + offset for card in hand])
 
 
-def rank_hands(hands):
+def rank_hands(hands, jokers: bool = False):
     return tuple(
         sorted(
-            hands, reverse=True, key=lambda h: (identify_hand(h[0]), *numeric_hand(h[0]))
+            hands,
+            reverse=True,
+            key=lambda h: (
+                identify_hand(h[0], jokers=jokers),
+                *numeric_hand(h[0], jokers=jokers),
+            ),
         )
     )
 
@@ -58,6 +71,15 @@ def rank_hands(hands):
 def solve_part_one(input_path):
     hands = parse_input(input_path)
     ranked_hands = rank_hands(hands)
+    winnings = [
+        bid * rank for rank, (_, bid) in enumerate(reversed(ranked_hands), start=1)
+    ]
+    return sum(winnings)
+
+
+def solve_part_two(input_path):
+    hands = parse_input(input_path)
+    ranked_hands = rank_hands(hands, jokers=True)
     winnings = [
         bid * rank for rank, (_, bid) in enumerate(reversed(ranked_hands), start=1)
     ]
