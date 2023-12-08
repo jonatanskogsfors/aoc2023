@@ -29,7 +29,7 @@ def parse_input(input_path: Path):
     return instructions, network
 
 
-def find_cycle(start_node, instructions, network):
+def find_cycle(start_node: str, instructions: tuple[Instruction, ...], network: dict):
     before_cycle = None
     end_node_end = "Z"
     current_node = start_node
@@ -43,7 +43,7 @@ def find_cycle(start_node, instructions, network):
         current_node = network[current_node][instruction]
 
 
-def solve_part_one(input_path):
+def solve_part_one(input_path: Path):
     instructions, network = parse_input(input_path)
     current_node = "AAA"
     end_node = "ZZZ"
@@ -54,7 +54,7 @@ def solve_part_one(input_path):
         current_node = network[current_node][instruction]
 
 
-def solve_part_two(input_path):
+def solve_part_two(input_path: Path):
     instructions, network = parse_input(input_path)
     current_nodes = tuple(node for node in network if node.endswith("A"))
     periods = [find_cycle(node, instructions, network) for node in current_nodes]

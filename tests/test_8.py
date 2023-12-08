@@ -60,11 +60,11 @@ def test_parsing_input_returns_instructions_and_network():
     ),
 )
 def test_find_cycle_returns_expected_start_and_cycle_length(
-    given_start_node,
-    given_network,
-    given_instructions,
-    expected_before_cycle,
-    expected_period,
+    given_start_node: str,
+    given_network: dict,
+    given_instructions: tuple[Instruction, ...],
+    expected_before_cycle: int,
+    expected_period: int,
 ):
     before_cycle, period = day_8.find_cycle(
         given_start_node, given_instructions, given_network
@@ -76,7 +76,9 @@ def test_find_cycle_returns_expected_start_and_cycle_length(
 @pytest.mark.parametrize(
     "given_input_path, expected_answer", ((TEST_INPUT_1, 2), (TEST_INPUT_2, 6))
 )
-def test_solving_part_one_gives_expected_value(given_input_path, expected_answer):
+def test_solving_part_one_gives_expected_value(
+    given_input_path: Path, expected_answer: int
+):
     answer = day_8.solve_part_one(given_input_path)
     assert answer == expected_answer
 
