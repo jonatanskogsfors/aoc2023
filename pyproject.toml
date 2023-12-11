@@ -13,7 +13,7 @@ readme = "README.md"
 license = {text = "MIT"}
 
 [project.scripts]
-aoc-input = "aoc2023.scripts.download_input:main"
+aoc = "aoc2023.scripts.aoc:main"
 
 [tool.pdm.dev-dependencies]
 dev = [
