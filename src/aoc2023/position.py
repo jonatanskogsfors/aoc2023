@@ -12,3 +12,8 @@ class Position:
 
     def manhattan(self, other: Self):
         return abs(self.x - other.x) + abs(self.y - other.y)
+
+    def __add__(self, other):
+        if isinstance(other, Position):
+            return Position(self.x + other.x, self.y + other.y)
+        raise NotImplementedError()
