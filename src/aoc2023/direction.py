@@ -1,4 +1,3 @@
-import dataclasses
 import enum
 
 from aoc2023.position import Position
@@ -21,3 +20,6 @@ class Direction(enum.Enum):
             case 3:
                 direction_delta = Position(0, -1)
         return direction_delta
+
+    def __lt__(self, other):
+        return self.value < other.value

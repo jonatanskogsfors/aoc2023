@@ -17,3 +17,16 @@ class Position:
         if isinstance(other, Position):
             return Position(self.x + other.x, self.y + other.y)
         raise NotImplementedError()
+
+    def __sub__(self, other):
+        if isinstance(other, Position):
+            return Position(self.x - other.x, self.y - other.y)
+        raise NotImplementedError()
+
+    def __mul__(self, other):
+        if isinstance(other, int):
+            return Position(self.x * other, self.y * other)
+        raise NotImplementedError()
+
+    def __lt__(self, other):
+        return (self.x + self.y) < (other.x + other.y)
