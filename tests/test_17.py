@@ -6,6 +6,7 @@ from aoc2023.position import Position
 
 TEST_INPUT_DIR = Path(__file__).parent / "test_input"
 TEST_INPUT_1 = TEST_INPUT_DIR / "test_input_17_1.txt"
+TEST_INPUT_2 = TEST_INPUT_DIR / "test_input_17_2.txt"
 
 
 @pytest.mark.parametrize(
@@ -51,7 +52,13 @@ def test_solving_part_one_gives_expected_value():
     assert answer == expected_answer
 
 
-def test_solving_part_two_gives_expected_value():
-    answer = day_17.solve_part_two(TEST_INPUT_1)
-    expected_answer = "?"
+@pytest.mark.parametrize(
+    "given_input_path, expected_answer",
+    (
+        (TEST_INPUT_1, 94),
+        (TEST_INPUT_2, 71),
+    ),
+)
+def test_solving_part_two_gives_expected_value(given_input_path, expected_answer):
+    answer = day_17.solve_part_two(given_input_path)
     assert answer == expected_answer

@@ -11,7 +11,7 @@ def main():
     print(solve_part_two(input_path))
 
 
-def neighbors_for_node(graph, node: Position, direction: Direction):
+def neighbors_for_node(graph, node: Position, direction: Direction, move_range=(1, 3)):
     width = len(graph[0])
     height = len(graph)
 
@@ -24,25 +24,41 @@ def neighbors_for_node(graph, node: Position, direction: Direction):
         )
 
     neighbors = set()
+    move_range_low, move_range_high = move_range
     for new_direction in new_directions:
         nodes_in_direction = [
             node_in_direction
-            for n in range(1, 4)
+            for n in range(move_range_low, move_range_high + 1)
             if 0 <= (node_in_direction := node + new_direction.delta() * n).x < width
             and 0 <= node_in_direction.y < height
         ]
-        for n in range(1, len(nodes_in_direction) + 1):
-            cost = sum(index_graph(graph, apa) for apa in nodes_in_direction[:n])
-            neighbors.add((cost, node + new_direction.delta() * n, new_direction))
+        for node_in_direction in nodes_in_direction:
+            cost = sum(
+                index_graph(graph, node + new_direction.delta(), node_in_direction)
+            )
+            neighbors.add((cost, node_in_direction, new_direction))
 
     return sorted(neighbors)
 
 
-def index_graph(graph, position: Position):
-    return graph[position.y][position.x]
+def index_graph(graph, position_start: Position, position_end: Position = None):
+    height = len(graph)
+    width = len(graph[0])
+
+    if position_end is not None:
+        if position_start.x == position_end.x:
+            up, down = sorted((position_start.y, position_end.y))
+            return [graph[y][position_start.x] for y in range(up, down + 1)]
+        if position_start.y == position_end.y:
+            left, right = sorted((position_start.x, position_end.x))
+            return [graph[position_start.y][x] for x in range(left, right + 1)]
+        else:
+            raise ValueError("Position ranges must be straight.")
+
+    return graph[position_start.y][position_start.x]
 
 
-def dijkstras_algorithm(graph, start: Position, goal: Position):
+def dijkstras_algorithm(graph, start: Position, goal: Position, move_range=(1, 3)):
     unvisited = queue.PriorityQueue()
     unvisited.put((0, start, None))
     visited = set()
@@ -55,7 +71,9 @@ def dijkstras_algorithm(graph, start: Position, goal: Position):
         elif node_state in visited:
             continue
         visited.add(node_state)
-        for cost, neighbor_position, direction in neighbors_for_node(graph, *node_state):
+        for cost, neighbor_position, direction in neighbors_for_node(
+            graph, node_position, node_direction, move_range
+        ):
             neighbor_state = (neighbor_position, direction)
             if neighbor_state in visited:
                 continue
@@ -83,7 +101,15 @@ def solve_part_one(input_path: Path):
 
 
 def solve_part_two(input_path: Path):
-    ...
+    city_map = parse_input(input_path)
+    height = len(city_map)
+    width = len(city_map[0])
+
+    start = Position(0, 0)
+    goal = Position(width - 1, height - 1)
+
+    cost = dijkstras_algorithm(city_map, start, goal, move_range=(4, 10))
+    return cost
 
 
 if __name__ == "__main__":
