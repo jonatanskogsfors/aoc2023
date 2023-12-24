@@ -19,14 +19,32 @@ def test_calculate_needed_space_to_contain_lagoon():
     assert width == expected_width
     assert height == expected_height
 
+
 @pytest.mark.parametrize(
-    "given_lagoon, given_position, given_direction, given_length, expected_lagoon, expected_position",
+    "given_lagoon, given_position, given_direction, "
+    "given_length, expected_lagoon, expected_position",
     (
-        (("...", "...", "..."), Position(2, 0), Direction.DOWN, 2, ("..#", "..#", "..#"), Position(2, 2)),
-    )
+        (
+            ("...", "...", "..."),
+            Position(2, 0),
+            Direction.DOWN,
+            2,
+            ("..#", "..#", "..#"),
+            Position(2, 2),
+        ),
+    ),
 )
-def test_dig_trench(given_lagoon, given_position, given_direction, given_length, expected_lagoon, expected_position):
-    new_lagoon, new_position = day_18.dig_trench(given_lagoon, given_position, given_direction, given_length)
+def test_dig_trench(
+    given_lagoon,
+    given_position,
+    given_direction,
+    given_length,
+    expected_lagoon,
+    expected_position,
+):
+    new_lagoon, new_position = day_18.dig_trench(
+        given_lagoon, given_position, given_direction, given_length
+    )
     assert new_lagoon == expected_lagoon
     assert new_position == expected_position
 
@@ -37,8 +55,9 @@ def test_create_outline():
     expected_size = 38
     assert sum(row.count("#") for row in outline) == expected_size
 
+
 @pytest.mark.parametrize(
-    "given_lagoon, given_position, expected_lagoon",
+    "given_outline, given_position, expected_lagoon",
     (
         (
             (".###.", "##.##", "#...#", "#..##", "###."),
@@ -52,9 +71,31 @@ def test_create_outline():
         ),
     ),
 )
-def test_flood_fill(given_lagoon, given_position, expected_lagoon):
-    new_lagoon = day_18.flood_fill(given_lagoon, given_position)
+def test_flood_fill(given_outline, given_position, expected_lagoon):
+    new_lagoon = day_18.flood_fill(given_outline, given_position)
     assert new_lagoon == expected_lagoon
+
+
+@pytest.mark.parametrize(
+    "given_dig_plan, expected_size",
+    (
+        (
+            (
+                (Direction.RIGHT, 2, ""),
+                (Direction.DOWN, 2, ""),
+                (Direction.RIGHT, 2, ""),
+                (Direction.DOWN, 2, ""),
+                (Direction.LEFT, 4, ""),
+                (Direction.UP, 4, ""),
+            ),
+            21,
+        ),
+    ),
+)
+def test_faux_fill(given_dig_plan, expected_size):
+    lagoon_size = day_18.faux_fill(given_dig_plan)
+    assert lagoon_size == expected_size
+
 
 @pytest.mark.parametrize(
     "given_color, expected_direction, expected_length",
@@ -73,12 +114,13 @@ def test_flood_fill(given_lagoon, given_position, expected_lagoon):
         ("#a77fa3", Direction.UP, 686074),
         ("#015232", Direction.LEFT, 5411),
         ("#7a21e3", Direction.UP, 500254),
-    )
+    ),
 )
 def test_instruction_from_color(given_color, expected_direction, expected_length):
     direction, length = day_18.instruction_from_color(given_color)
     assert direction == expected_direction
     assert length == expected_length
+
 
 def test_solving_part_one_gives_expected_value():
     answer = day_18.solve_part_one(TEST_INPUT_1)
@@ -87,6 +129,6 @@ def test_solving_part_one_gives_expected_value():
 
 
 def test_solving_part_two_gives_expected_value():
-    answer = day_18.solve_part_one(TEST_INPUT_1)
+    answer = day_18.solve_part_two(TEST_INPUT_1)
     expected_answer = 952408144115
     assert answer == expected_answer
