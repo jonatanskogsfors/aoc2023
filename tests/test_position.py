@@ -36,7 +36,7 @@ def test_addition(given_a, given_b, expected_sum):
     (
         (Position(0, 0), Position(0, 0), Position(0, 0)),
         (Position(9, 11), Position(3, 7), Position(6, 4)),
-        (Position(3, 5), 5, Position(4, 8)),
+        (Position(3, 5), Position(4, 8), Position(-1, -3)),
     ),
 )
 def test_subtraction(given_a, given_b, expected_difference):
