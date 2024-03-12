@@ -30,3 +30,8 @@ class Position:
 
     def __lt__(self, other):
         return (self.x + self.y) < (other.x + other.y)
+
+
+@dataclasses.dataclass
+class Position3d(Position):
+    z: int = 0

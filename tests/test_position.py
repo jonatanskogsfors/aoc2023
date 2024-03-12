@@ -1,5 +1,5 @@
 import pytest
-from aoc2023.position import Position
+from aoc2023.position import Position, Position3d
 
 
 @pytest.mark.parametrize(
@@ -58,3 +58,18 @@ def test_subtraction(given_a, given_b, expected_difference):
 def test_scalar_multiplication(given_position, given_scalar, expected_product):
     position_difference = given_position * given_scalar
     assert position_difference == expected_product
+
+
+@pytest.mark.parametrize("given_x, given_y", ((0, 1), (1, 2), (3, 5)))
+def test_position_2d_has_xy(given_x, given_y):
+    position3d = Position(given_x, given_y)
+    assert position3d.x == given_x
+    assert position3d.y == given_y
+
+
+@pytest.mark.parametrize("given_x, given_y, given_z", ((0, 1, 1), (2, 3, 5), (8, 13, 21)))
+def test_position_3d_has_xyz(given_x, given_y, given_z):
+    position3d = Position3d(given_x, given_y, given_z)
+    assert position3d.x == given_x
+    assert position3d.y == given_y
+    assert position3d.z == given_z
